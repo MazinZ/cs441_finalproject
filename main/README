@@ -1,0 +1,64 @@
+Fall 2015 CS441 Final Project Milestone C
+Submission Date: place the date (before the Dead Week)
+Names: Provided by JWJ
+
+********
+How to Run the program:
+
+1. Simple shell script:
+./CSMilestoneCtest_script  "file name" (e.g. fib-input.cmm)
+
+   The shell script assumes the location of testfiles to be under the TESTS-C directory.  If the .cmm test file is located in a different locaton, the DIRECTORY variable in the script must be modified.  Output is the result all of the following:  
+	./Testcmm  "filename"
+	./Compiler "filename" xxx.apm  
+	./pstack/api xxx
+
+   The advantage of this script is the ability to see the complete output.  The disadvantage is that it must be run separately for each test file.
+
+2. more elaborated shell script provided by the instructor (Dr. Jaromczyk):
+./test-cmm2pstack-modified.sh
+    In this case, the "fib-input.cmm" file must be removed form the TESTS-C directory since it cannot read any keyboard input.  The advantage of this script is the ability to test all the files at once.  The disadvantage is its reliance on the correctness of .out and .err files.  
+
+********
+EXPECTED -- Implemented features:
+1. getnum() function 
+    The syntax is var = getnum();
+2. If-then expression
+    The syntax is if (expression){}.
+3. If-then-else expression
+    The syntax is if(expression) {} else{}.
+4. for loop
+    The implemented syntax is for(expression, statement). Unlike in C/C++, the statment must be in the form of var = expression. (e.g. for (i < 10; i++) is not allowed).
+See example test.
+********
+Not implemented features and bugs:
+List not accomplished tasks. List all limitations for accomplished tasks.
+List known bugs.
+
+********
+Extras:
+List any extra features.
+
+********
+Included test files: found under TESTS-C.  Except for fib-input.cmm .err and .out files are provided for each.
+   ifElseFor1.cmm
+   ifElseFor2.cmm
+   fib-input.cmm   (no corersponding .err and .out files)
+   simple1_for2.cmm   
+   simple1_ifElse.cmm 
+   simple2_ifElse.cmm
+
+
+********
+List of files and directories:
+
+Provide a complete list of included files with comments explaining which
+and how they were modified by
+you, which were added by you.
+
+*******
+
+
+
+
+

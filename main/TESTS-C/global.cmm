@@ -1,0 +1,20 @@
+int i;
+
+int func() {
+
+i = 30;
+putn(i);
+return 0;
+}
+
+int main(){
+
+
+i=9;
+putn(i);
+
+func();
+
+return 0;
+}
+

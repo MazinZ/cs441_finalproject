@@ -1,0 +1,17 @@
+
+int main ()
+{
+   int i;
+   i = 0;
+
+   do {
+     i = i + 1;
+     putn(i);
+   }
+   while(i<7);
+
+
+   return 0;
+
+}
+
