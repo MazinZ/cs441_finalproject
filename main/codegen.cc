@@ -54,6 +54,9 @@ void CodeGen::visitSIf(SIf *sif) // CHANGED
 
 void CodeGen::visitSFor(SFor *sfor) // CHANGED
 {
+
+    symbols.enter();
+
     int looploc = code.pos();
     sfor->exp_1->accept(this);
     code.add(I_JR_IF_FALSE);
@@ -66,6 +69,45 @@ void CodeGen::visitSFor(SFor *sfor) // CHANGED
     code.add(looploc - (code.pos() - 1));
     code.at(patchloc) = code.pos() - (patchloc - 1);
 }
+
+void CodeGen::visitSForScope(SForScope *sfs)
+{
+
+    sfs->type_->accept(this);
+    visitIdent(sfs->ident_);
+
+    code.add(I_PROC);
+    code.add(0);
+    code.add(code.pos()+1);
+    symbols.enter();
+    symbols.insert(Symbol(currid, currtype, code.pos()));
+
+    // See visitEAss
+    code.add(I_VARIABLE);
+    code.add(symbols.levelof(currid));
+    code.add(symbols[currid]->address());
+    code.add_dup();
+    visitInteger(sfs->integer_);
+    code.add(I_ASSIGN);
+    code.add(1);
+    code.add(I_VALUE);
+
+    int looploc = code.pos();
+    sfs->exp_1->accept(this);
+    code.add(0);
+    int patchloc = code.pos() -1;
+    sfs->exp_2->accept(this);
+    sfs->stm_->accept(this);
+    
+    code.add(I_JR);
+    code.add(looploc - (code.pos()-1));
+    code.at(patchloc) = code.pos() - (patchloc - 1);
+    
+    code.add(I_ENDPROC);    
+     
+    symbols.leave();
+}
+
 
 void CodeGen::visitSIfElse(SIfElse *sifelse) // CHANGED
 {
@@ -85,20 +127,6 @@ void CodeGen::visitSIfElse(SIfElse *sifelse) // CHANGED
     
 }
 
-int CodeGen::countArgs(ListDecl* listdecl)
-{
-    int count = 0;
-
-    for (ListDecl::iterator i = listdecl->begin() ; i != listdecl->end() ; ++i)
-    {
-	std::cout << "listdec" << *i << std::endl;
-        count+=1;
-    }
-    
-    count = listdecl->size();
-   
-    return count;
-}
 
 void CodeGen::visitProg(Prog *prog)
 {
@@ -152,12 +180,10 @@ void CodeGen::visitFun(Fun *fun)
     int startvar = symbols.numvars();
    
     // CHANGED
-    int num_args = countArgs(fun->listdecl_);
 
     symbols[fun_name]->set_num_args(funargs);
     symbols[fun_name]->set_has_return(true);   
 
-    std::cout << "args "<< funargs << std::endl;
     // Generate code for function body.
     fun->liststm_->accept(this);
 
@@ -262,6 +288,20 @@ void CodeGen::visitELt(ELt *elt)
     code.add(I_LESS);
 }
 
+void CodeGen::visitEGt(EGt *egt)
+{
+    egt->exp_1->accept(this);
+    egt->exp_2->accept(this);
+    code.add(I_GREATER);
+}
+
+void CodeGen::visitEEq(EEq *eeq)
+{
+    eeq->exp_1->accept(this);
+    eeq->exp_2->accept(this);
+    code.add(I_EQUAL);
+}
+
 void CodeGen::visitEAdd(EAdd *eadd)
 {
     eadd->exp_1->accept(this);
@@ -291,8 +331,8 @@ void CodeGen::visitCall(Call *call)
 
     int level = symbols.levelof(currid);
     int addr = symbols[currid]->address();
-    int expected_arg_num = symbols[currid]->get_num_args();
-    std::cout << "expected_args" << expected_arg_num << std::endl;
+    Ident call_name = currid;    
+
     // Make room on the stack for the return value.  Assumes all functions
     // will return some value.
     code.add(I_CONSTANT);
@@ -300,8 +340,16 @@ void CodeGen::visitCall(Call *call)
 
     // Generate code for the expressions (which leaves their values on the
     // stack when executed).
+    int expected_count = call->listexp_->size();
     call->listexp_->accept(this);
-    
+   
+
+    if (call_name != "getnum" && call_name !="putn" && call_name !="puts" && call_name != "exit") { 
+       if (expected_count!=symbols[call_name]->get_num_args()){
+           throw ArgCount(call_name);
+       } 
+    }
+
     code.add(I_CALL);
     code.add(level);
     code.add(addr);

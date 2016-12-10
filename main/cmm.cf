@@ -20,9 +20,12 @@ SFor.   Stm ::= "for" "(" Exp ";" Exp ")" Stm;
 SIfElse. Stm ::= "if" "(" Exp ")" Stm "else" Stm ;
 SRepeatUntil. Stm ::= "do" Stm "while" "(" Exp ")" ";" ; 
 SGlobalVar. Function ::= Type Ident ";" ; 
+SForScope. Stm ::= "for" "(" Type Ident "=" Integer ";" Exp ";" Exp ")" Stm ;
 
 EAss.    Exp  ::= Ident "=" Exp ;
+EGt.     Exp1 ::= Exp2 ">" Exp2 ;
 ELt.     Exp1 ::= Exp2 "<" Exp2 ;
+EEq.     Exp1 ::= Exp2 "==" Exp2 ;
 EAdd.    Exp2 ::= Exp2 "+" Exp3 ;
 ESub.    Exp2 ::= Exp2 "-" Exp3 ;
 EMul.    Exp3 ::= Exp3 "*" Exp4 ;

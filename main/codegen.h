@@ -30,6 +30,15 @@ public:
     {}
 };
 
+// Changed
+class ArgCount : public std::logic_error
+{
+public:
+    ArgCount(const std::string &name)
+        : logic_error("Incorrect Argument Count for function \"" + name + "\"")
+    {}
+};
+
 class Unimplemented : public std::logic_error
 {
 public:
@@ -78,7 +87,9 @@ public:
 
     // Expressions
     void visitEAss(EAss *p);
-    void visitELt(ELt *p);
+    void visitELt(ELt *p); // changed
+    void visitEGt(EGt *p); // changed
+    void visitEEq(EEq *p);
     void visitEAdd(EAdd *p);
     void visitESub(ESub *p);
     void visitEMul(EMul *p);
@@ -106,8 +117,7 @@ public:
     void visitSIfElse(SIfElse *sifelse);
     void visitSRepeatUntil(SRepeatUntil *sru);
     void visitSGlobalVar(SGlobalVar* sgv);
-    int countArgs(ListDecl* listdecl);
-
+    void visitSForScope(SForScope*);
 };
 
 #endif
