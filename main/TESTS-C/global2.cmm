@@ -6,9 +6,11 @@ putn (x);
 return 0;
 }
 int main () {
+
 i = 12;
 j = 2016;
 x = 20;
+
 for (int i = 0; i < 2; i = i + 1){
 for (int j = 2; j > 0; j = j - 1){
 f(i);

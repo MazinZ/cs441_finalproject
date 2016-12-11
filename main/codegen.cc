@@ -15,12 +15,12 @@ PstackCode CodeGen::generate(Visitable *vis)
 void CodeGen::visitSGlobalVar(SGlobalVar* sgv) // CHANGED
 {
     sgv->type_->accept(this);
-    visitIdent(sgv->ident_);
-    
+    visitIdent(sgv->ident_);   
+
     if (symbols.exists(currid))
         throw Redeclared(currid);
 
-    symbols.insert(Symbol(currid, currtype, code.pos()));
+    symbols.insert(Symbol(currid, currtype, (symbols.numvars())));
 }
 
 void CodeGen::visitSRepeatUntil(SRepeatUntil *sru) // CHANGED
@@ -148,7 +148,7 @@ void CodeGen::visitProg(Prog *prog)
 {
     code.begin_prog();
     code.prolog(symbols);
-
+    
     // Insert call to main(), to be patched up later.
     code.add(I_CALL);
     int patchloc = code.pos();
@@ -168,7 +168,7 @@ void CodeGen::visitProg(Prog *prog)
     // Patch up the address of main.
     code.at(patchloc) = level;
     code.at(patchloc + 1) = addr;
-
+    code.at(2) = symbols.numvars()-4;
     code.end_prog();
 }
 
