@@ -168,7 +168,7 @@ void CodeGen::visitProg(Prog *prog)
     // Patch up the address of main.
     code.at(patchloc) = level;
     code.at(patchloc + 1) = addr;
-    code.at(2) = symbols.numvars()-4;
+    code.at(2) = symbols.numvars();
     code.end_prog();
 }
 
