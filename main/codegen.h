@@ -118,6 +118,8 @@ public:
     void visitSRepeatUntil(SRepeatUntil *sru);
     void visitSGlobalVar(SGlobalVar* sgv);
     void visitSForScope(SForScope*);
+    void visitSFor3(SFor3 *sfor);
+
 };
 
 #endif

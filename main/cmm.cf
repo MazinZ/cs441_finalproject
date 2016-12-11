@@ -21,6 +21,8 @@ SIfElse. Stm ::= "if" "(" Exp ")" Stm "else" Stm ;
 SRepeatUntil. Stm ::= "do" Stm "while" "(" Exp ")" ";" ; 
 SGlobalVar. Function ::= Type Ident ";" ; 
 SForScope. Stm ::= "for" "(" Type Ident "=" Integer ";" Exp ";" Exp ")" Stm ;
+SFor3. Stm ::= "for" "(" Exp ";" Exp ";" Exp ")" Stm ;
+
 
 EAss.    Exp  ::= Ident "=" Exp ;
 EGt.     Exp1 ::= Exp2 ">" Exp2 ;
