@@ -73,11 +73,13 @@ void CodeGen::visitSFor(SFor *sfor) // CHANGED
 void CodeGen::visitSForScope(SForScope *sfs)
 {
 
+
     sfs->type_->accept(this);
     visitIdent(sfs->ident_);
 
     code.add(I_PROC);
-    code.add(0);
+    int patchloc2 = code.pos();
+    code.add(1);
     code.add(code.pos()+1);
     symbols.enter();
     symbols.insert(Symbol(currid, currtype, code.pos()));
@@ -94,6 +96,7 @@ void CodeGen::visitSForScope(SForScope *sfs)
 
     int looploc = code.pos();
     sfs->exp_1->accept(this);
+    code.add(I_JR_IF_FALSE);
     code.add(0);
     int patchloc = code.pos() -1;
     sfs->exp_2->accept(this);
@@ -103,9 +106,11 @@ void CodeGen::visitSForScope(SForScope *sfs)
     code.add(looploc - (code.pos()-1));
     code.at(patchloc) = code.pos() - (patchloc - 1);
     
-    code.add(I_ENDPROC);    
-     
+    code.at(patchloc2) = symbols.numvars() - 1;
     symbols.leave();
+    code.add(I_ENDPROC);
+    //code.add(funargs); 
+      
 }
 
 
