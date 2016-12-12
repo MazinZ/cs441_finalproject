@@ -55,16 +55,15 @@ void CodeGen::visitSIf(SIf *sif) // CHANGED
 void CodeGen::visitSFor(SFor *sfor) // CHANGED
 {
 
-    symbols.enter();
+   // symbols.enter();
 
     int looploc = code.pos();
     sfor->exp_1->accept(this);
     code.add(I_JR_IF_FALSE);
     code.add(0);
     int patchloc = code.pos() - 1 ;
-    sfor->exp_2->accept(this);
     sfor->stm_->accept(this);
-
+    sfor->exp_2->accept(this);
     code.add(I_JR);
     code.add(looploc - (code.pos() - 1));
     code.at(patchloc) = code.pos() - (patchloc - 1);
