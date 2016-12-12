@@ -272,18 +272,15 @@ void CodeGen::visitSWhile(SWhile *swhile)
 
 void CodeGen::visitSReturn(SReturn *sreturn)
 {
-    // Could avoid the I_SWAP later if we generate code for the
-    // return expression after pushing the return value address.
-    sreturn->exp_->accept(this);
 
     // Store the top of stack (return value) at (bp-funargs)
     code.add(I_VARIABLE);
-    code.add(0);
+    code.add(0); 
     code.add(-(funargs+1));
-    code.add(I_SWAP);
+    sreturn->exp_->accept(this); 
     code.add(I_ASSIGN);
     code.add(1);
-
+    
     // And return, popping off our parameters.
     code.add(I_ENDPPROC);
     code.add(funargs);
