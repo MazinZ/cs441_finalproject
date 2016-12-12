@@ -144,7 +144,7 @@ void CodeGen::visitSIfElse(SIfElse *sifelse) // CHANGED
 
 void CodeGen::visitSFor3(SFor3 *sfor)
 {
-    symbols.enter();
+    //symbols.enter();
     sfor->exp_1->accept(this);
     int looploc = code.pos();
     sfor->exp_2->accept(this);
