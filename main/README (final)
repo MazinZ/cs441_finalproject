@@ -60,18 +60,24 @@ STATUS OF THE PROJECT: (mark with completed/partial/not implemented)
 
 status    feature
 --------------------------------
-        if-then and if-then-else
-        for loops (2 part)
-        for loops (2 part)
-        Optimization of Swaps
-        globals
-    repeat-until (do-while)
-        for loop (scoped version)
-        Check argument counts for functions
-
+        if-then and if-then-else (completed)
+        for loops (2 part) (completed)
+        for loops (2 part) (completed)
+        Optimization of Swaps (completed)
+        globals (completed)
+    repeat-until (do-while) (completed)
+        for loop (scoped version) (completed)
+        Check argument counts for functions (completed)
+        doubles (not completed)
+        type-checking (not completed)
+        
+        
 DEVELOPERS'S NOTES:
-<describe the basic ideas of your implementation for above features focusing
-on interesting solutions, difficulties, etc., important design decisions>
+In designing our implementations for this project, our first goal was code consistency.  That is, we did the best that we could to keep
+our code in similar style with the code that was provided for this assignment.  As such, most of our design decisions came with this
+as a leading, or in some cases, the only factor when approaching the problem.  This served to both keep code simple to view and consist-
+ent across the project as well as guaranteeing that our code does not add any new dependencies.  We also found this to make for the
+most straightforward implementations for these new functions.
                 
  
 EXTRAS: N/A
