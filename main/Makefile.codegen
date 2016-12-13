@@ -11,7 +11,7 @@ OBJS = Absyn.o Lexer.o Parser.o codegen.o symbtable.o pstcode.o
 
 .PHONY: clean distclean pstack
 
-all: compiler pstack/api
+all: cmm2pstack pstack/api
 
 pstack/api: pstack/api.c
 	make -C pstack
